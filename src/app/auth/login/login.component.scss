@@ -6,6 +6,7 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
+
   .form-container {
     background-color: $white;
     width: 45vw;
@@ -16,6 +17,7 @@
     box-shadow: 5px 0px 6px rgba(0, 0, 0, 0.16);
     display: flex;
     flex-direction: column;
+
     .title {
       font-size: clamp(1.5rem, 3vw, 2.2rem);
       font-weight: bold;
@@ -23,36 +25,42 @@
       color: $primary;
       text-align: center;
     }
+
     .form-inner-container {
       display: flex;
       align-items: center;
       width: 100%;
+
       .inputs-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
+
         @media (min-width: 962px) {
           width: 55%;
         }
+
         .form-group {
           width: 100%;
           min-height: 10vh;
+
           label {
             color: $primary;
           }
+
           .form-control {
             border-radius: 4px;
             color: $primary;
           }
-        }
+          }
 
-        .btn {
-          width: 40%;
-          background-color: $primary;
-          cursor: pointer;
-          border: none;
-          margin-top: 30px;
+          .btn {
+            width: 40%;
+            background-color: $primary;
+            cursor: pointer;
+            border: none;
+            margin-top: 30px;
         }
       }
 

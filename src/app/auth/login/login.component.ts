@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { LoginRequest } from '../models/auth.model';
+import { AuthService } from '../services/auth.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +13,8 @@ import { LoginRequest } from '../models/auth.model';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
+  showErrorToast = false;
+  hidePassword = true;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -35,7 +37,9 @@ export class LoginComponent implements OnInit {
   get password() {
     return this.loginForm.get('password');
   }
-
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
   onSubmit(): void {
     this.isLoading = true;
     if (this.loginForm.valid) {
@@ -56,6 +60,10 @@ export class LoginComponent implements OnInit {
           },
           error: () => {
             this.isLoading = false;
+            this.showErrorToast = true;
+            setTimeout(() => {
+              this.showErrorToast = false;
+            }, 6000);
           },
         });
     }
