@@ -79,4 +79,12 @@
       }
     }
   }
+  .position-relative {
+    position: relative;
+  }
+
+  .bi {
+    color: $primary; 
+    cursor: pointer;
+  }
 }

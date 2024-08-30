@@ -35,16 +35,23 @@
           </div>
         </div>
 
-        <div class="form-group mt-3">
+        <div class="form-group mt-3 position-relative">
           <label for="password">Password</label>
+          <div class="input-group">
             <input
-            id="password"
-            formControlName="password"
-            class="form-control"
-            type="password"
-            aria-required="true"
-            placeholder="Enter password"
-          />
+              id="password"
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              class="form-control"
+            />
+            <span class="input-group-text" (click)="togglePasswordVisibility()">
+              <i
+                class="bi"
+                [ngClass]="hidePassword ? 'bi-eye-slash' : 'bi-eye'"
+                aria-hidden="true"
+              ></i>
+            </span>
+          </div>
           <div
             *ngIf="
               password &&
@@ -81,14 +88,15 @@
 
 <!-- Toast for error messages -->
 <div
-class="toast-container position-fixed top-0 end-0 p-3"
-*ngIf="showErrorToast"
+  class="toast-container position-fixed top-0 end-0 p-3"
+  *ngIf="showErrorToast"
 >
-<div class="toast align-items-center text-bg-danger border-0 show" role="alert">
-  <div class="d-flex">
-    <div class="toast-body">
-      Something went wrong, please check the data.
+  <div
+    class="toast align-items-center text-bg-danger border-0 show"
+    role="alert"
+  >
+    <div class="d-flex">
+      <div class="toast-body">Something went wrong, please check the data.</div>
     </div>
-</div>
-</div>
+  </div>
 </div>
