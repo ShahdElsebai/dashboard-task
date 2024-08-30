@@ -1,0 +1,28 @@
+@import "../../../assets/color-plate";
+
+.login-outer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background: url("../../../assets/images/login-bg.png");
+  .form-container {
+    background-color: $white;
+    width: 50vw;
+    height: 60vh;
+    border: 5px solid $primary;
+    border-radius: 15px;
+    padding: 5vh 5vw;
+    .title {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: bold;
+      font-family: MontserratSemiBold;
+      color: $primary;
+    }
+  }
+}
