@@ -25,7 +25,6 @@
     }
     .form-inner-container {
       display: flex;
-      // flex-direction: column;
       align-items: center;
       width: 100%;
       .inputs-container {
@@ -58,7 +57,7 @@
 
       .image-container {
         width: 100%;
-        display: none; // Hide image by default on smaller screens
+        display: none;
         @media (min-width: 962px) {
           width: 45%;
           display: block;
