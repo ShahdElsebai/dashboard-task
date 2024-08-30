@@ -13,7 +13,7 @@
     border: 5px solid $primary;
     border-radius: 15px;
     padding: 5vh 3vw;
-    box-shadow: 5px 0px 6px rgba(0, 0, 0, 0.1607843137);
+    box-shadow: 5px 0px 6px rgba(0, 0, 0, 0.16);
     display: flex;
     flex-direction: column;
     .title {
@@ -41,11 +41,12 @@
           label {
             color: $primary;
           }
+          .form-control {
+            border-radius: 4px;
+            color: $primary;
+          }
         }
-        .form-control {
-          border-radius: 4px;
-          color: $primary;
-        }
+
         .btn {
           width: 40%;
           background-color: $primary;
@@ -56,13 +57,14 @@
       }
 
       .image-container {
-        width: 100%;
-        display: none;
+        display: none; // Hide image by default
+
         @media (min-width: 962px) {
-          width: 45%;
           display: block;
+          width: 45%;
           transform: scale(0.45);
         }
+
         @media (max-width: 1105px) {
           transform: scale(0.4);
         }
