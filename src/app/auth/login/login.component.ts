@@ -1,20 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { LoginRequest } from '../models/auth.model';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  isLoading = false;
+  private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -27,10 +37,31 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.isLoading = true;
     if (this.loginForm.valid) {
-      const formData = this.loginForm.value;
-      console.log('Form Submitted', formData);
-      // Handle form submission, e.g., send data to server
+      const loginRequest: LoginRequest = {
+        field: this.username?.value,
+        password: this.password?.value,
+        type: 'admin',
+      };
+      this.authService
+        .login(loginRequest)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            if (res) {
+              this.isLoading = false;
+              this.router.navigate(['']);
+            }
+          },
+          error: () => {
+            this.isLoading = false;
+          },
+        });
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

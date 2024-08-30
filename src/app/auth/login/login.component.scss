@@ -57,7 +57,7 @@
       }
 
       .image-container {
-        display: none; // Hide image by default
+        display: none;
 
         @media (min-width: 962px) {
           display: block;

@@ -65,9 +65,10 @@
         <button
           type="submit"
           class="btn btn-primary"
-          [disabled]="loginForm.invalid"
+          [disabled]="loginForm.invalid || isLoading"
+          lo
         >
-          Login
+          {{ isLoading ? "Loading..." : "Login" }}
         </button>
       </div>
 
