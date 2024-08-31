@@ -13,12 +13,13 @@ export class TableComponent<TData extends Record<string, any>>
   @Input() headers: TableHeader[] = [];
   @Input() data: TData[] = [];
   @Input() actions: ActionType[] = [];
-  
+
   @Output() view = new EventEmitter<TData>();
   @Output() edit = new EventEmitter<TData>();
   @Output() delete = new EventEmitter<TData>();
   @Output() toggle = new EventEmitter<TData>();
-  
+  @Output() openFilterModal = new EventEmitter<TData>();
+
   keys: string[] = [];
 
   constructor(private datePipe: DatePipe) {}
@@ -36,7 +37,6 @@ export class TableComponent<TData extends Record<string, any>>
     return value;
   }
 
-
   onView(item: TData) {
     this.view.emit(item);
   }
@@ -48,7 +48,12 @@ export class TableComponent<TData extends Record<string, any>>
   onDelete(item: TData) {
     this.delete.emit(item);
   }
+
   onToggle(item: TData) {
     this.toggle.emit(item);
+  }
+
+  openFilterModalClicked() {
+    this.openFilterModal.emit();
   }
 }

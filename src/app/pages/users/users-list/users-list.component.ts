@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as bootstrap from 'bootstrap';
 import { ActionType, TableHeader } from 'src/app/shared/model/table.model';
 type User = {
   ID: number;
@@ -41,5 +42,13 @@ export class UsersListComponent {
   }
   handleToggleActivation(item: any) {
     console.log('Toggle clicked', item);
+  }
+
+  openFilterModal() {
+    const modalElement = document.getElementById('myModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
   }
 }

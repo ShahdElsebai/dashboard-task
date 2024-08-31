@@ -1,0 +1,9 @@
+@import "../../../../assets/color-plate";
+.filter-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  .btn {
+    background-color: $primary;
+    border: none;
+  }
+}
