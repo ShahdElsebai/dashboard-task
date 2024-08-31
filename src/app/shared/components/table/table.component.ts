@@ -14,6 +14,8 @@ export class TableComponent<TData extends Record<string, any>>
   @Input() data: TData[] = [];
   @Input() actions: ActionType[] = [];
   @Input() isLoading: boolean = true;
+  @Input() getClass?: (columnName: string, value: any) => string;
+  
   @Output() view = new EventEmitter<TData>();
   @Output() edit = new EventEmitter<TData>();
   @Output() delete = new EventEmitter<TData>();

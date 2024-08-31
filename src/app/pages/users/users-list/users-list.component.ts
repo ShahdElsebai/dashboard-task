@@ -82,9 +82,18 @@ export class UsersListComponent implements OnInit {
     this.tableData = users.map((user: User) => ({
       ...user,
       country_name: user.country ? user.country.name_en : '-',
-      active: user.active === 1 ? 'Active' : 'UnActive',
+      active: user.active === 1 ? 'Active' : 'InActive',
       is_premium: user.is_premium === 1 ? 'Is Premium' : 'Not Premium'
     }));
+  }
+  getColumnClass(columnName: string, value: any): string {
+    if (columnName === 'active' && value === 'Active' || columnName === 'is_premium' && value === 'Is Premium') {
+      return 'active-column';
+    }
+    if (columnName === 'active' && value === 'InActive'|| columnName === 'is_premium' && value === 'Not Premium') {
+      return 'inactive-column';
+    }
+    return '';
   }
   handleView(item: User) {
     console.log('View clicked', item);

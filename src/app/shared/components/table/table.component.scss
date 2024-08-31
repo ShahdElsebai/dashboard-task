@@ -1,4 +1,4 @@
-@import "../../../../assets/color-plate";
+@import "src/assets/color-plate";
 .filter-btn-container {
   display: flex;
   justify-content: flex-end;
@@ -30,4 +30,10 @@
 }
 .view {
   background-color: $primary;
+}
+.active-column{
+  color: $green;  
+}
+.inactive-column{
+  color: $error;  
 }

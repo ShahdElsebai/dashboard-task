@@ -22,7 +22,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let row of data">
-        <td *ngFor="let header of headers">
+        <td *ngFor="let header of headers" [ngClass]="getClass ? getClass(header.name, row[header.name]) : ''">
           {{ formatValue(row[header.name], header.type) }}
         </td>
         <td *ngIf="actions.length > 0">

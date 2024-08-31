@@ -1,9 +1,9 @@
-<p>users-list works!</p>
 <app-table
   [headers]="tableHeaders"
   [data]="tableData"
   [actions]="tableActions"
   [isLoading]="getAllIsLoading"
+  [getClass]="getColumnClass"
   (view)="handleView($event)"
   (edit)="handleEdit($event)"
   (delete)="handleDelete($event)"
