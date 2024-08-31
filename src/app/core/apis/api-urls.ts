@@ -6,4 +6,7 @@ export const URLS = {
     getAll: 'users',
     create: 'users/create'
   },
+  country:{
+    getAll: 'countries'
+  }
 };

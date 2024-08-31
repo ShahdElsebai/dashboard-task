@@ -14,7 +14,9 @@
           *ngIf="name && name.invalid && (name.dirty || name.touched)"
           class="text-danger"
         >
-          <div *ngIf="name.errors?.['required']"><small>Name is required.</small></div>
+          <div *ngIf="name.errors?.['required']">
+            <small>Name is required.</small>
+          </div>
         </div>
       </div>
     </div>
@@ -77,7 +79,9 @@
           "
           class="text-danger"
         >
-          <div *ngIf="password.errors?.['required']"><small>Password is required.</small></div>
+          <div *ngIf="password.errors?.['required']">
+            <small>Password is required.</small>
+          </div>
           <div *ngIf="password.errors?.['minlength']">
             <small>Password must be at least 8 characters long.</small>
           </div>
@@ -86,7 +90,9 @@
     </div>
     <div class="col-md-6">
       <div class="form-group mb-2">
-        <label for="confirmPassword">Confirm Password <span class="text-danger">*</span></label>
+        <label for="confirmPassword"
+          >Confirm Password <span class="text-danger">*</span></label
+        >
         <input
           type="password"
           id="confirmPassword"
@@ -94,7 +100,14 @@
           class="form-control"
           placeholder="Confirm your password"
         />
-        <div *ngIf="userForm.hasError('mismatch') && confirmPassword && confirmPassword.touched" class="text-danger">
+        <div
+          *ngIf="
+            userForm.hasError('mismatch') &&
+            confirmPassword &&
+            confirmPassword.touched
+          "
+          class="text-danger"
+        >
           <small>Passwords do not match.</small>
         </div>
       </div>
@@ -115,8 +128,12 @@
           *ngIf="email && email.invalid && (email.dirty || email.touched)"
           class="text-danger"
         >
-          <div *ngIf="email.errors?.['required']"><small>Email is required.</small></div>
-          <div *ngIf="email.errors?.['email']"><small>Email isn't vaild.</small></div>
+          <div *ngIf="email.errors?.['required']">
+            <small>Email is required.</small>
+          </div>
+          <div *ngIf="email.errors?.['email']">
+            <small>Email isn't vaild.</small>
+          </div>
         </div>
       </div>
     </div>
@@ -205,9 +222,9 @@
           aria-label="Country"
         >
           <option value="" disabled selected>Select your country</option>
-          <option value="1">United States</option>
-          <option value="2">Canada</option>
-          <option value="3">United Kingdom</option>
+          <option *ngFor="let country of countries" [value]="country.id">
+            {{ country.name }}
+          </option>
         </select>
       </div>
       <div
@@ -218,7 +235,9 @@
         "
         class="text-danger"
       >
-        <div *ngIf="country_id.errors?.['required']"><small>Country is required.</small></div>
+        <div *ngIf="country_id.errors?.['required']">
+          <small>Country is required.</small>
+        </div>
       </div>
       <div
         *ngIf="
@@ -229,7 +248,7 @@
         class="text-danger"
       >
         <div *ngIf="country_code.errors?.['required']">
-            <small>Country Code is required.</small>
+          <small>Country Code is required.</small>
         </div>
       </div>
     </div>
