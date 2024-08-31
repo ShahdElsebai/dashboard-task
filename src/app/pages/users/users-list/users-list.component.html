@@ -1,3 +1,4 @@
+<!-- Table Component -->
 <app-table
   [headers]="tableHeaders"
   [data]="tableData"
@@ -9,18 +10,17 @@
   (delete)="handleDelete($event)"
   (toggle)="handleToggleActivation($event)"
   (openFilterModal)="openFilterModal()"
-  (openCreateModal) = "openCreateUserModal()"
->
-</app-table>
-<app-toast-error *ngIf="showErrorToast" [errorMessage]="errorMessage"></app-toast-error>
+  (openCreateModal)="openCreateUserModal()"
+></app-table>
 
-<div
-  class="modal fade"
-  id="myModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<!-- Error Toast Component -->
+<app-toast-error
+  *ngIf="showErrorToast"
+  [errorMessage]="errorMessage"
+></app-toast-error>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -33,19 +33,16 @@
         ></button>
       </div>
       <div class="modal-body">
-        <app-users-filter-form (closeFilterModal)="closeFilterModal($event)"></app-users-filter-form>
+        <app-users-filter-form
+          (closeFilterModal)="closeFilterModal($event)"
+        ></app-users-filter-form>
       </div>
     </div>
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="createUserModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -58,7 +55,9 @@
         ></button>
       </div>
       <div class="modal-body">
-        <app-user-form (closeUserFormModal)="closeCreateUserModal()"></app-user-form>
+        <app-user-form
+          (closeUserFormModal)="closeCreateUserModal()"
+        ></app-user-form>
       </div>
     </div>
   </div>

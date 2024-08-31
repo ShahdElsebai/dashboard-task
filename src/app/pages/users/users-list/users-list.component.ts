@@ -116,7 +116,7 @@ export class UsersListComponent implements OnInit {
   }
 
   openFilterModal() {
-    const modalElement = document.getElementById('myModal');
+    const modalElement = document.getElementById('filterModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
@@ -130,7 +130,7 @@ export class UsersListComponent implements OnInit {
     this.filters.gender = filters.gender;
     this.filters.is_permium = filters.is_permium ? 1 : 0;
     this.filters.type = filters.type;
-    const modalElement = document.getElementById('myModal');
+    const modalElement = document.getElementById('filterModal');
     if (modalElement) {
       const modal = bootstrap.Modal.getInstance(modalElement);
       if (modal) modal.hide();
