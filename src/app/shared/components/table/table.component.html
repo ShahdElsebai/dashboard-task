@@ -1,7 +1,7 @@
 <div class="spinner-container" *ngIf="isLoading">
-  <app-spinner ></app-spinner>
-
+  <app-spinner></app-spinner>
 </div>
+
 <div *ngIf="!isLoading">
   <div class="filter-btn-container">
     <button
@@ -13,42 +13,48 @@
     </button>
   </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th *ngFor="let header of headers">{{ header.label }}</th>
-        <th *ngIf="actions.length > 0">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of data">
-        <td *ngFor="let header of headers" [ngClass]="getClass ? getClass(header.name, row[header.name]) : ''">
-          {{ formatValue(row[header.name], header.type) }}
-        </td>
-        <td *ngIf="actions.length > 0">
-          <button
-            class="action-btn view"
-            *ngIf="actions.includes('view')"
-            (click)="onView(row)"
+  <!-- Responsive table wrapper -->
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers">{{ header.label }}</th>
+          <th *ngIf="actions.length > 0">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data">
+          <td
+            *ngFor="let header of headers"
+            [ngClass]="getClass ? getClass(header.name, row[header.name]) : ''"
           >
-            <i class="bi bi-eye"></i>
-          </button>
-          <button
-            class="action-btn edit"
-            *ngIf="actions.includes('edit')"
-            (click)="onEdit(row)"
-          >
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button
-            class="action-btn delete"
-            *ngIf="actions.includes('delete')"
-            (click)="onDelete(row)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            {{ formatValue(row[header.name], header.type) }}
+          </td>
+          <td *ngIf="actions.length > 0">
+            <button
+              class="action-btn view"
+              *ngIf="actions.includes('view')"
+              (click)="onView(row)"
+            >
+              <i class="bi bi-eye"></i>
+            </button>
+            <button
+              class="action-btn edit"
+              *ngIf="actions.includes('edit')"
+              (click)="onEdit(row)"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button
+              class="action-btn delete"
+              *ngIf="actions.includes('delete')"
+              (click)="onDelete(row)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

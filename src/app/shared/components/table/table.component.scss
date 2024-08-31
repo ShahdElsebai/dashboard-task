@@ -1,39 +1,69 @@
 @import "src/assets/color-plate";
+
 .filter-btn-container {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 50px;
   .btn {
     background-color: $primary;
     border: none;
   }
 }
-.spinner-container{
+
+.spinner-container {
   width: 100%;
   height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.action-btn {
-  margin-left: 10px;
-  width: 30px;
-  height: 30px;
-  color: $white;
-  border: none;
-  border-radius: 50%;
-}
-.delete {
-  background-color: $error;
-}
-.edit {
-  background-color: $link;
-}
-.view {
-  background-color: $primary;
-}
-.active-column{
-  color: $green;  
-}
-.inactive-column{
-  color: $error;  
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+
+    th,
+    td {
+      white-space: nowrap; /* Prevent text wrapping */
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background-color: $primary-light;
+      z-index: 2;
+    }
+  }
+  .action-btn {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    color: $white;
+    border: none;
+    border-radius: 50%;
+  }
+
+  .delete {
+    background-color: $error;
+  }
+
+  .edit {
+    background-color: $link;
+  }
+
+  .view {
+    background-color: $primary;
+  }
+  .active-column {
+    color: $green;
+  }
+
+  .inactive-column {
+    color: $error;
+  }
 }
