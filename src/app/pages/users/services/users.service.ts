@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { User } from '../models/users.model';
 import { URLS } from 'src/app/core/apis/api-urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment';
 import { ResponseAPI } from 'src/app/shared/model/shared.model';
+import { CreateUserRequest, User } from '../models/users.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +39,14 @@ export class UsersService {
       environment.BASE_URL + URLS.user.getAll,
       {
         params: queryParams,
+      }
+    );
+  }
+  createUser(createdUser: CreateUserRequest): Observable<any> {
+    return this._http.post<any>(
+      environment.BASE_URL + URLS.user.create,
+      {
+        ...createdUser,
       }
     );
   }

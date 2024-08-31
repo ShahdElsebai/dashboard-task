@@ -38,11 +38,19 @@ export class UserFormComponent implements OnInit {
       country_id: ['', Validators.required],
       phone: ['', Validators.required],
       phone_code: ['', Validators.required],
-      active: [false],
-      is_premium: [false],
+      active: [0],
+      is_premium: [0],
       email: ['', [Validators.required, Validators.email]],
       image: [null],
-    });
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validator: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password = formGroup?.get('password')?.value;
+    const confirmPassword = formGroup?.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
   get name() {
     return this.userForm.get('name');
@@ -62,6 +70,12 @@ export class UserFormComponent implements OnInit {
   }
   get email() {
     return this.userForm.get('email');
+  }
+  get password() {
+    return this.userForm.get('password');
+  }
+  get confirmPassword() {
+    return this.userForm.get('confirmPassword');
   }
   onFileChange(event: any) {
     const file = event.target.files[0];

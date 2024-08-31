@@ -14,7 +14,7 @@
           *ngIf="name && name.invalid && (name.dirty || name.touched)"
           class="text-danger"
         >
-          <div *ngIf="name.errors?.['required']">Name is required.</div>
+          <div *ngIf="name.errors?.['required']"><small>Name is required.</small></div>
         </div>
       </div>
     </div>
@@ -58,7 +58,48 @@
       </div>
     </div>
   </div>
-
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="password"
+          >Password<span class="required-asterisk">*</span></label
+        >
+        <input
+          formControlName="password"
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Enter user password"
+        />
+        <div
+          *ngIf="
+            password && password.invalid && (password.dirty || password.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="password.errors?.['required']"><small>Password is required.</small></div>
+          <div *ngIf="password.errors?.['minlength']">
+            <small>Password must be at least 8 characters long.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="confirmPassword">Confirm Password <span class="text-danger">*</span></label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="form-control"
+          placeholder="Confirm your password"
+        />
+        <div *ngIf="userForm.hasError('mismatch') && confirmPassword && confirmPassword.touched" class="text-danger">
+          <small>Passwords do not match.</small>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-6">
       <div class="form-group mb-2">
@@ -74,8 +115,8 @@
           *ngIf="email && email.invalid && (email.dirty || email.touched)"
           class="text-danger"
         >
-          <div *ngIf="email.errors?.['required']">Email is required.</div>
-          <div *ngIf="email.errors?.['email']">Email isn't vaild.</div>
+          <div *ngIf="email.errors?.['required']"><small>Email is required.</small></div>
+          <div *ngIf="email.errors?.['email']"><small>Email isn't vaild.</small></div>
         </div>
       </div>
     </div>
@@ -177,7 +218,7 @@
         "
         class="text-danger"
       >
-        <div *ngIf="country_id.errors?.['required']">Country is required.</div>
+        <div *ngIf="country_id.errors?.['required']"><small>Country is required.</small></div>
       </div>
       <div
         *ngIf="
@@ -188,7 +229,7 @@
         class="text-danger"
       >
         <div *ngIf="country_code.errors?.['required']">
-          Country code is required.
+            <small>Country Code is required.</small>
         </div>
       </div>
     </div>

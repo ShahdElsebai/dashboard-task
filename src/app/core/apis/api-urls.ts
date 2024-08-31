@@ -4,5 +4,6 @@ export const URLS = {
   },
   user: {
     getAll: 'users',
+    create: 'users/create'
   },
 };

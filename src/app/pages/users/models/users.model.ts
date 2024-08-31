@@ -36,3 +36,28 @@ export interface UserFilters {
   type: string | undefined;
   is_permium: number | undefined;
 }
+export interface CreateUserRequest {
+  name: string;
+  phone: string;
+  phone_code: string;
+  country_id: number;
+  country_code: string;
+  email: string;
+  active: string | number;
+  is_premium: string | number;
+  password: string;
+  father_name?: string;
+  grandfather_name?: string;
+  family_branch_name?: string;
+  gender?: 'male' | 'female';
+  date_of_birth?: string;
+  tribe: any;
+
+  image: any;
+  // type: string;
+
+  // code: string;
+  // verified_at: string;
+  // country: Country;
+  // country_name?: string;
+}
