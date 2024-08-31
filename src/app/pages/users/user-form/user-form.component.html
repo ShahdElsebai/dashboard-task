@@ -201,18 +201,24 @@
         <span class="input-group-text" id="phoneCode">+</span>
         <input
           formControlName="phone_code"
-          type="text"
+          type="tel"
           class="form-control"
           id="phone_code"
           placeholder="Code"
           style="max-width: 100px"
+          pattern="[0-9]*"
+          inputmode="numeric"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
         />
         <input
           formControlName="phone"
-          type="text"
+          type="tel"
           class="form-control"
           id="phone"
           placeholder="Enter your phone number"
+          pattern="[0-9]*"
+          inputmode="numeric"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
         />
       </div>
     </div>
