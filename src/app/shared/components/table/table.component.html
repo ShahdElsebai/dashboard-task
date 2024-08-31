@@ -23,6 +23,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngIf="data.length === 0">
+          <td [attr.colspan]="headers.length + (actions.length > 0 ? 1 : 0)" class="text-center">
+            No data available
+          </td>
+        </tr>
         <tr *ngFor="let row of data">
           <td
             *ngFor="let header of headers"
