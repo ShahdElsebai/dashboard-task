@@ -1,0 +1,18 @@
+@import "src/assets/_color-plate.scss";
+.form-group {
+  min-height: 9.5vh;
+  .required-asterisk {
+    color: $red;
+    margin-left: 2px;
+  }
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  .btn {
+    background-color: $primary;
+    border: none;
+    width: 50%;
+  }
+}

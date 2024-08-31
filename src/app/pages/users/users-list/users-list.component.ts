@@ -62,12 +62,11 @@ export class UsersListComponent implements OnInit {
         next: (usersResponse: ResponseAPI<User[] | any>) => {
           if (
             this.filters.gender ||
-            this.filters.is_permium  ||
+            this.filters.is_permium ||
             this.filters.type
           )
             this.setUsersData(usersResponse.data.data);
-            else
-            this.setUsersData(usersResponse.data);
+          else this.setUsersData(usersResponse.data);
         },
         error: () => {
           this.getAllIsLoading = false;
@@ -83,14 +82,20 @@ export class UsersListComponent implements OnInit {
       ...user,
       country_name: user.country ? user.country.name_en : '-',
       active: user.active === 1 ? 'Active' : 'InActive',
-      is_premium: user.is_premium === 1 ? 'Is Premium' : 'Not Premium'
+      is_premium: user.is_premium === 1 ? 'Is Premium' : 'Not Premium',
     }));
   }
   getColumnClass(columnName: string, value: any): string {
-    if (columnName === 'active' && value === 'Active' || columnName === 'is_premium' && value === 'Is Premium') {
+    if (
+      (columnName === 'active' && value === 'Active') ||
+      (columnName === 'is_premium' && value === 'Is Premium')
+    ) {
       return 'active-column';
     }
-    if (columnName === 'active' && value === 'InActive'|| columnName === 'is_premium' && value === 'Not Premium') {
+    if (
+      (columnName === 'active' && value === 'InActive') ||
+      (columnName === 'is_premium' && value === 'Not Premium')
+    ) {
       return 'inactive-column';
     }
     return '';
@@ -122,11 +127,25 @@ export class UsersListComponent implements OnInit {
     type?: string;
     is_permium?: boolean;
   }) {
-    console.log(filters);
     this.filters.gender = filters.gender;
     this.filters.is_permium = filters.is_permium ? 1 : 0;
     this.filters.type = filters.type;
     const modalElement = document.getElementById('myModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) modal.hide();
+    }
+    this.listAllUsers();
+  }
+  openCreateUserModal() {
+    const modalElement = document.getElementById('createUserModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  closeCreateUserModal() {
+    const modalElement = document.getElementById('createUserModal');
     if (modalElement) {
       const modal = bootstrap.Modal.getInstance(modalElement);
       if (modal) modal.hide();

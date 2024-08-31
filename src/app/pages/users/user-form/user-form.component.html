@@ -1,0 +1,254 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="container mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="name">Name<span class="required-asterisk">*</span></label>
+        <input
+          formControlName="name"
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="Enter your name"
+        />
+        <div
+          *ngIf="name && name.invalid && (name.dirty || name.touched)"
+          class="text-danger"
+        >
+          <div *ngIf="name.errors?.['required']">Name is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="father_name">Father Name</label>
+        <input
+          formControlName="father_name"
+          type="text"
+          class="form-control"
+          id="father_name"
+          placeholder="Enter your father's name"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="grandfather_name">Grandfather Name</label>
+        <input
+          formControlName="grandfather_name"
+          type="text"
+          class="form-control"
+          id="grandfather_name"
+          placeholder="Enter your grandfather's name"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="family_branch_name">Family Branch Name</label>
+        <input
+          formControlName="family_branch_name"
+          type="text"
+          class="form-control"
+          id="family_branch_name"
+          placeholder="Enter your family branch name"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="email">Email<span class="required-asterisk">*</span></label>
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Enter your email"
+        />
+        <div
+          *ngIf="email && email.invalid && (email.dirty || email.touched)"
+          class="text-danger"
+        >
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+          <div *ngIf="email.errors?.['email']">Email isn't vaild.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="image">Image</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileChange($event)"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="tribe">Tribe</label>
+        <input
+          formControlName="tribe"
+          type="text"
+          class="form-control"
+          id="tribe"
+          placeholder="Enter your tribe"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="job">Job</label>
+        <input
+          formControlName="job"
+          type="text"
+          class="form-control"
+          id="job"
+          placeholder="Enter your job"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="date_of_birth">Date of Birth</label>
+        <input
+          formControlName="date_of_birth"
+          type="date"
+          class="form-control"
+          id="date_of_birth"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-2">
+        <label for="gender">Gender</label>
+        <select formControlName="gender" class="form-select" id="gender">
+          <option value="" disabled>Select your gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group mb-2">
+      <label for="country">
+        Country and Country Code
+        <span class="text-danger">*</span>
+      </label>
+      <div class="input-group">
+        <input
+          formControlName="country_code"
+          type="text"
+          class="form-control"
+          id="country_code"
+          placeholder="Code"
+          style="max-width: 100px"
+        />
+
+        <select
+          formControlName="country_id"
+          class="form-select"
+          id="country"
+          aria-label="Country"
+        >
+          <option value="" disabled selected>Select your country</option>
+          <option value="1">United States</option>
+          <option value="2">Canada</option>
+          <option value="3">United Kingdom</option>
+        </select>
+      </div>
+      <div
+        *ngIf="
+          country_id &&
+          country_id.invalid &&
+          (country_id.dirty || country_id.touched)
+        "
+        class="text-danger"
+      >
+        <div *ngIf="country_id.errors?.['required']">Country is required.</div>
+      </div>
+      <div
+        *ngIf="
+          country_code &&
+          country_code.invalid &&
+          (country_code.dirty || country_code.touched)
+        "
+        class="text-danger"
+      >
+        <div *ngIf="country_code.errors?.['required']">
+          Country code is required.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group mb-2">
+      <label for="phone">Phone<span class="required-asterisk">*</span></label>
+      <div class="input-group">
+        <span class="input-group-text" id="phoneCode">+</span>
+        <input
+          formControlName="phone_code"
+          type="text"
+          class="form-control"
+          id="phone_code"
+          placeholder="Code"
+          style="max-width: 100px"
+        />
+        <input
+          formControlName="phone"
+          type="text"
+          class="form-control"
+          id="phone"
+          placeholder="Enter your phone number"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-check mb-2">
+        <input
+          formControlName="active"
+          type="checkbox"
+          class="form-check-input"
+          id="active"
+        />
+        <label class="form-check-label" for="active">Active</label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check mb-2">
+        <input
+          formControlName="is_premium"
+          type="checkbox"
+          class="form-check-input"
+          id="is_premium"
+        />
+        <label class="form-check-label" for="is_premium">Is Premium</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row-mt-8 btn-container">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="userForm.invalid || isLoading"
+    >
+      Submit
+    </button>
+  </div>
+</form>

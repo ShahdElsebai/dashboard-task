@@ -15,8 +15,9 @@ import {
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent<TData extends Record<string, any>> implements OnInit, OnChanges {
-  
+export class TableComponent<TData extends Record<string, any>>
+  implements OnInit, OnChanges
+{
   @Input() headers: TableHeader[] = [];
   @Input() data: TData[] = [];
   @Input() actions: ActionType[] = [];
@@ -28,6 +29,7 @@ export class TableComponent<TData extends Record<string, any>> implements OnInit
   @Output() delete = new EventEmitter<TData>();
   @Output() toggle = new EventEmitter<TData>();
   @Output() openFilterModal = new EventEmitter<void>();
+  @Output() openCreateModal = new EventEmitter<void>();
 
   keys: string[] = [];
   sortedData: TData[] = [];
@@ -115,7 +117,9 @@ export class TableComponent<TData extends Record<string, any>> implements OnInit
   onToggle(item: TData) {
     this.toggle.emit(item);
   }
-
+  onOpenCreateNew() {
+    this.openCreateModal.emit();
+  }
   openFilterModalClicked() {
     this.openFilterModal.emit();
   }
