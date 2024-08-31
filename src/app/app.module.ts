@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { ApiHeaderInterceptor } from './core/interceptors/api-header-interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ApiHeaderInterceptor } from './core/interceptors/api-header-interceptor';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
         useClass: ApiHeaderInterceptor,
         multi: true,
       },
-      // Other providers
     ],
   bootstrap: [AppComponent]
 })

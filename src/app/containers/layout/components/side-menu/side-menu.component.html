@@ -1,1 +1,11 @@
-<p>side-menu works!</p>
+<div class="sidebar d-flex flex-column p-3">
+  <ul class="nav flex-column mb-auto">
+    <li class="nav-item" *ngFor="let item of menuItems"  [ngClass]="{'active-item': selectedItem === item}">
+      <a class="nav-link active"  (click)="selectItem(item)">{{item.label}}</a>
+    </li>
+  </ul>
+  <div>
+    <a class="nav-link" (click)="logoutClicked()">Logout</a>
+  </div>
+</div>
+
