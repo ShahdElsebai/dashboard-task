@@ -13,22 +13,27 @@
     </button>
   </div>
 
-  <!-- Responsive table wrapper -->
   <div class="table-responsive">
     <table class="table">
       <thead>
         <tr>
-          <th *ngFor="let header of headers">{{ header.label }}</th>
+          <th *ngFor="let header of headers" (click)="sortData(header)">
+            {{ header.label }}
+            <i
+              [ngClass]="{
+                'bi bi-arrow-up':
+                  sortColumn === header.name && sortDirection === 'asc',
+                'bi bi-arrow-down':
+                  sortColumn === header.name && sortDirection === 'desc',
+                'bi bi-arrow-down-up': sortColumn !== header.name
+              }"
+            ></i>
+          </th>
           <th *ngIf="actions.length > 0">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="data.length === 0">
-          <td [attr.colspan]="headers.length + (actions.length > 0 ? 1 : 0)" class="text-center">
-            No data available
-          </td>
-        </tr>
-        <tr *ngFor="let row of data">
+        <tr *ngFor="let row of sortedData">
           <td
             *ngFor="let header of headers"
             [ngClass]="getClass ? getClass(header.name, row[header.name]) : ''"

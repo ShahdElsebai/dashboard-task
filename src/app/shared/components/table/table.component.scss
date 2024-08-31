@@ -38,6 +38,14 @@
       background-color: $primary-light;
       z-index: 2;
     }
+    th {
+      cursor: pointer;
+
+      i {
+        margin-left: 5px;
+        font-size: 12px;
+      }
+    }
   }
   .action-btn {
     margin-left: 10px;
