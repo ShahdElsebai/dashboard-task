@@ -16,8 +16,8 @@ export interface User extends TimeStamp {
   country_code: string;
   email: string;
   type: string;
-  active: number;
-  is_premium: number;
+  active: string | number;
+  is_premium: string | number;
   code: string;
   verified_at: string;
   country: Country;
@@ -30,4 +30,9 @@ export interface Country {
   iso2: string;
   phonecode: string;
   name: string;
+}
+export interface UserFilters {
+  gender: string | undefined;
+  type: string | undefined;
+  is_permium: number | undefined;
 }

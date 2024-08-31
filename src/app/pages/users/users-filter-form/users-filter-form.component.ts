@@ -8,18 +8,17 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class UsersFilterFormComponent {
   userForm: FormGroup;
-  @Output() closeFilterModal = new EventEmitter<void>();
+  @Output() closeFilterModal = new EventEmitter<{gender?: string, type?: string, is_permium?: boolean}>();
 
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
       gender: [null],
       type: [null],
-      isPremium: [null],
+      is_permium: [null],
     });
   }
 
   onSubmit() {
-    console.log(this.userForm.value);
-    this.closeFilterModal.emit();
+    this.closeFilterModal.emit(this.userForm.value);
   }
 }

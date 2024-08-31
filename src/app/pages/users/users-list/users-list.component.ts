@@ -1,8 +1,8 @@
 import * as bootstrap from 'bootstrap';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/users.model';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../services/users.service';
+import { User, UserFilters } from '../models/users.model';
 import { SpinnerStatus } from 'src/app/core/models/core.model';
 import { ResponseAPI } from 'src/app/shared/model/shared.model';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
@@ -33,7 +33,7 @@ export class UsersListComponent implements OnInit {
   tableActions: ActionType[] = ['view', 'edit', 'delete', 'toggle'];
 
   tableData: User[] = [];
-  filters = {
+  filters: UserFilters = {
     gender: undefined,
     type: undefined,
     is_permium: undefined,
@@ -48,6 +48,7 @@ export class UsersListComponent implements OnInit {
     this.listAllUsers();
   }
   listAllUsers() {
+    this.getAllIsLoading = true;
     this.usersService
       .getAllUsers(0, this.filters)
       .pipe(
@@ -58,9 +59,15 @@ export class UsersListComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: (usersResponse: ResponseAPI<User[]>) => {
-          console.log(usersResponse);
-          this.setUsersData(usersResponse.data);
+        next: (usersResponse: ResponseAPI<User[] | any>) => {
+          if (
+            this.filters.gender ||
+            this.filters.is_permium  ||
+            this.filters.type
+          )
+            this.setUsersData(usersResponse.data.data);
+            else
+            this.setUsersData(usersResponse.data);
         },
         error: () => {
           this.getAllIsLoading = false;
@@ -75,6 +82,8 @@ export class UsersListComponent implements OnInit {
     this.tableData = users.map((user: User) => ({
       ...user,
       country_name: user.country ? user.country.name_en : '-',
+      active: user.active === 1 ? 'Active' : 'UnActive',
+      is_premium: user.is_premium === 1 ? 'Is Premium' : 'Not Premium'
     }));
   }
   handleView(item: User) {
@@ -99,12 +108,21 @@ export class UsersListComponent implements OnInit {
       modal.show();
     }
   }
-  closeFilterModal() {
+  closeFilterModal(filters: {
+    gender?: string;
+    type?: string;
+    is_permium?: boolean;
+  }) {
+    console.log(filters);
+    this.filters.gender = filters.gender;
+    this.filters.is_permium = filters.is_permium ? 1 : 0;
+    this.filters.type = filters.type;
     const modalElement = document.getElementById('myModal');
     if (modalElement) {
       const modal = bootstrap.Modal.getInstance(modalElement);
       if (modal) modal.hide();
     }
+    this.listAllUsers();
   }
   ngOnDestroy(): void {
     this.destroy$.next();

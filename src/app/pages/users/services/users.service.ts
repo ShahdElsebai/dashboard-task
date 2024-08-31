@@ -16,7 +16,7 @@ export class UsersService {
     filters: {
       gender?: string;
       type?: string;
-      is_permium?: boolean;
+      is_permium?: number;
     } = {}
   ): Observable<ResponseAPI<User[]>> {
     let queryParams = new HttpParams().set('page', pageNumber);
@@ -26,11 +26,11 @@ export class UsersService {
       return_all = false;
     }
     if (filters.type) {
-      queryParams = queryParams.append('jobId', filters.type);
+      queryParams = queryParams.append('type', filters.type);
       return_all = false;
     }
     if (filters.is_permium) {
-      queryParams = queryParams.append('workPlaceId', filters.is_permium);
+      queryParams = queryParams.append('is_premium', filters.is_permium);
       return_all = false;
     }
     if(return_all)
