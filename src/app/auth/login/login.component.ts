@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   showErrorToast = false;
+  errorMessage = 'Something went wrong, please check the data.';
   hidePassword = true;
   private destroy$ = new Subject<void>();
 

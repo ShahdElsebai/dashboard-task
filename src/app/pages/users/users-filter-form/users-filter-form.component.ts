@@ -1,5 +1,5 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users-filter-form',

@@ -1,17 +1,18 @@
-import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { URLS } from 'src/app/core/apis/api-urls';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HttpClient, HttpContext } from '@angular/common/http';
-import {
-  AuthenticationStatus,
-  LoginRequest,
-  LoginResponse,
-} from '../models/auth.model';
+import { environment } from 'src/app/environments/environment';
+import { ResponseAPI } from 'src/app/shared/model/shared.model';
 import { LocalStorageKeys } from 'src/app/core/models/core.model';
 import { DataLocalStorageService } from 'src/app/core/services/data-local-storage.service';
-import { URLS } from 'src/app/core/apis/api-urls';
 import { SKIP_TOKEN_INTERCEPTOR } from 'src/app/core/interceptors/api-header-interceptor';
-import { environment } from 'src/app/environments/environment';
 
+import {
+  AuthenticationStatus,
+  LogedInUser,
+  LoginRequest,
+} from '../models/auth.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +21,7 @@ export class AuthService {
     AuthenticationStatus.UNAUTHENTICATED
   );
   constructor(
-    private httpClient: HttpClient,
+    private _http: HttpClient,
     private dataLocalStorageService: DataLocalStorageService
   ) {
     this.setAuthenticationStatus();
@@ -48,14 +49,18 @@ export class AuthService {
       this.isAuthenticatedSubject.value === AuthenticationStatus.AUTHENTICATED
     );
   }
-  login(body: LoginRequest): Observable<LoginResponse> {
+  login(body: LoginRequest): Observable<ResponseAPI<LogedInUser>> {
     this.isAuthenticatedSubject.next(AuthenticationStatus.AUTHENTICATED);
-    return this.httpClient
-      .post<LoginResponse>(environment.BASE_URL + URLS.auth.login, body, {
-        context: new HttpContext().set(SKIP_TOKEN_INTERCEPTOR, true),
-      })
+    return this._http
+      .post<ResponseAPI<LogedInUser>>(
+        environment.BASE_URL + URLS.auth.login,
+        body,
+        {
+          context: new HttpContext().set(SKIP_TOKEN_INTERCEPTOR, true),
+        }
+      )
       .pipe(
-        map((response: LoginResponse) => {
+        map((response: ResponseAPI<LogedInUser>) => {
           const authToken = response.data.token;
           this.setAuthToken(authToken);
           return response;

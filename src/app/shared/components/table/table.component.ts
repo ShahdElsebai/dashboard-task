@@ -13,7 +13,7 @@ export class TableComponent<TData extends Record<string, any>>
   @Input() headers: TableHeader[] = [];
   @Input() data: TData[] = [];
   @Input() actions: ActionType[] = [];
-
+  @Input() isLoading: boolean = true;
   @Output() view = new EventEmitter<TData>();
   @Output() edit = new EventEmitter<TData>();
   @Output() delete = new EventEmitter<TData>();

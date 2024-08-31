@@ -3,6 +3,7 @@
   [headers]="tableHeaders"
   [data]="tableData"
   [actions]="tableActions"
+  [isLoading]="getAllIsLoading"
   (view)="handleView($event)"
   (edit)="handleEdit($event)"
   (delete)="handleDelete($event)"
@@ -10,6 +11,8 @@
   (openFilterModal)="openFilterModal()"
 >
 </app-table>
+<app-toast-error *ngIf="showErrorToast" [errorMessage]="errorMessage"></app-toast-error>
+
 <div
   class="modal fade"
   id="myModal"
