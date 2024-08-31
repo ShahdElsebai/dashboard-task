@@ -1,4 +1,4 @@
-import { TimeStamp } from 'src/app/shared/shared/model/shared.model';
+import { TimeStamp } from 'src/app/shared/model/shared.model';
 
 export enum AuthenticationStatus {
   AUTHENTICATED,

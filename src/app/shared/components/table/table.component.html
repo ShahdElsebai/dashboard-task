@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">{{ header.name }}</th>
+      <th *ngIf="actions.length > 0">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td *ngFor="let header of headers">
+        {{ formatValue(row[header.name], header.type) }}
+      </td>
+      <td *ngIf="actions.length > 0">
+        <button *ngIf="actions.includes('view')" (click)="onView(row)">
+          View
+        </button>
+        <button *ngIf="actions.includes('edit')" (click)="onEdit(row)">
+          Edit
+        </button>
+        <button *ngIf="actions.includes('delete')" (click)="onDelete(row)">
+          Delete
+        </button>
+        <button *ngIf="actions.includes('toggle')" (click)="onToggle(row)">
+          Toggle Activation
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

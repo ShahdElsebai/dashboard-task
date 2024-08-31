@@ -7,16 +7,15 @@
   flex-direction: column;
   background-color: $primary;
   color: $white;
-
-.nav-link {
+  
+  .nav-link {
+    cursor: pointer;
     color: $white;
   }
 
-.active-item .nav-link {
+  .active-item .nav-link {
     background-color: $white;
     color: $primary;
     border-radius: 4px;
   }
 }
-
-

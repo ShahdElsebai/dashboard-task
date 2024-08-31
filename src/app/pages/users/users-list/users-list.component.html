@@ -1,1 +1,11 @@
 <p>users-list works!</p>
+<app-table
+  [headers]="tableHeaders"
+  [data]="tableData"
+  [actions]="tableActions"
+  (view)="handleView($event)"
+  (edit)="handleEdit($event)"
+  (delete)="handleDelete($event)"
+  (toggle)="handleToggleActivation($event)"
+>
+</app-table>
