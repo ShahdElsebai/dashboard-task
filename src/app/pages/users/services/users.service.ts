@@ -41,6 +41,14 @@ export class UsersService {
       }
     );
   }
+  getUserById (
+    userId: number
+  ): Observable<ResponseAPI<User>> {
+    return this._http.get<ResponseAPI<User>>(
+      environment.BASE_URL + URLS.user.getAll +`/${userId}`
+      
+    );
+  }
   createUser(createdUser: CreateOrUpdateUserRequest): Observable<any> {
     return this._http.post<any>(environment.BASE_URL + URLS.user.create, {
       ...createdUser,

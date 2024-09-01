@@ -1,0 +1,13 @@
+.spinner-container {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .user-profile-container {
+    min-height: 70vh;
+    .label{
+        margin-right: 15px;
+    }
+  }
