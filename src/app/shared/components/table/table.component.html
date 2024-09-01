@@ -37,7 +37,7 @@
       </thead>
       <tbody>
         <!-- No data row -->
-        <tr *ngIf="!sortedData || sortedData.length === 0">
+        <tr *ngIf="!paginatedData || paginatedData.length === 0">
           <td
             [attr.colspan]="headers.length + (actions.length > 0 ? 1 : 0)"
             class="text-center"
@@ -47,7 +47,7 @@
         </tr>
 
         <!-- Data rows -->
-        <tr *ngFor="let row of sortedData">
+        <tr *ngFor="let row of paginatedData">
           <td
             *ngFor="let header of headers"
             [ngClass]="getClass ? getClass(header.name, row[header.name]) : ''"
@@ -80,5 +80,26 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Pagination controls -->
+  <div class="pagination-controls pagination-container">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="nextPage()"
+      [disabled]="currentPage >= totalPages"
+    >
+      Next
+    </button>
   </div>
 </div>

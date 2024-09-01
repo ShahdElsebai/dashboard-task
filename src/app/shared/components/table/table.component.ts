@@ -33,8 +33,15 @@ export class TableComponent<TData extends Record<string, any>>
 
   keys: string[] = [];
   sortedData: TData[] = [];
+  paginatedData: TData[] = [];
   sortColumn: string | null = null;
   sortDirection: 'asc' | 'desc' | '' = '';
+
+  // Pagination variables
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  totalPages = 0;
 
   constructor(private datePipe: DatePipe) {}
 
@@ -50,6 +57,8 @@ export class TableComponent<TData extends Record<string, any>>
 
   private initializeData() {
     this.sortedData = [...this.data];
+    this.totalItems = this.data.length;
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
     if (this.sortColumn) {
       const header = this.headers.find(
         (header) => header.name === this.sortColumn
@@ -58,24 +67,25 @@ export class TableComponent<TData extends Record<string, any>>
         this.sortData(header);
       }
     }
+    this.updatePagination();
   }
 
   sortData(header: TableHeader) {
     if (!header) {
       return;
     }
-
+  
     if (this.sortColumn === header.name) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortColumn = header.name;
       this.sortDirection = 'asc';
     }
-
+  
     this.sortedData.sort((a, b) => {
       let valueA = a[header.name];
       let valueB = b[header.name];
-
+  
       // Handle sorting by type
       if (header.type === 'number') {
         valueA = parseFloat(valueA);
@@ -83,8 +93,11 @@ export class TableComponent<TData extends Record<string, any>>
       } else if (header.type === 'date') {
         valueA = new Date(valueA).getTime();
         valueB = new Date(valueB).getTime();
+      } else if (typeof valueA === 'string' && typeof valueB === 'string') {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
       }
-
+  
       if (valueA < valueB) {
         return this.sortDirection === 'asc' ? -1 : 1;
       } else if (valueA > valueB) {
@@ -93,6 +106,35 @@ export class TableComponent<TData extends Record<string, any>>
         return 0;
       }
     });
+  
+    // After sorting, update pagination
+    this.updatePagination();
+  }
+  
+
+  updatePagination() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.paginatedData = this.sortedData.slice(start, end);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   formatValue(value: any, type: ColumnType): string {
@@ -117,9 +159,11 @@ export class TableComponent<TData extends Record<string, any>>
   onToggle(item: TData) {
     this.toggle.emit(item);
   }
+
   onOpenCreateNew() {
     this.openCreateModal.emit();
   }
+
   openFilterModalClicked() {
     this.openFilterModal.emit();
   }

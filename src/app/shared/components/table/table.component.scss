@@ -77,3 +77,13 @@
     color: $error;
   }
 }
+.pagination-container{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .btn{
+    background-color: $primary;
+    color:$white;
+    border: none;
+  }
+}
