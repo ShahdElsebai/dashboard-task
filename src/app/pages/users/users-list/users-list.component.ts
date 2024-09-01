@@ -1,8 +1,8 @@
 import * as bootstrap from 'bootstrap';
-import { Component, OnInit } from '@angular/core';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../services/users.service';
 import { User, UserFilters } from '../models/users.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SpinnerStatus } from 'src/app/core/models/core.model';
 import { ResponseAPI } from 'src/app/shared/model/shared.model';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
@@ -13,10 +13,10 @@ import { ActionType, TableHeader } from 'src/app/shared/model/table.model';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
   getAllIsLoading = true;
   showErrorToast = false;
-  errorMessage = "Something went wrong,couldn't load users.";
+  errorMessage = "Something went wrong, couldn't load users.";
   existingUser!: User;
   tableHeaders: TableHeader[] = [
     { label: 'ID', name: 'id', type: 'number' },
@@ -32,7 +32,6 @@ export class UsersListComponent implements OnInit {
   ];
 
   tableActions: ActionType[] = ['view', 'edit', 'delete', 'toggle'];
-
   tableData: User[] = [];
   filters: UserFilters = {
     gender: undefined,
@@ -45,6 +44,7 @@ export class UsersListComponent implements OnInit {
     private usersService: UsersService,
     public spinnerService: SpinnerService
   ) {}
+
   ngOnInit(): void {
     this.listAllUsers();
   }
@@ -54,124 +54,120 @@ export class UsersListComponent implements OnInit {
       .getAllUsers(0, this.filters)
       .pipe(
         finalize(() => {
-          this.getAllIsLoading =
-            this.spinnerService.showSpinner.value === SpinnerStatus.SHOW;
+          this.getAllIsLoading = this.spinnerService.showSpinner.value === SpinnerStatus.SHOW;
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (usersResponse: ResponseAPI<User[] | any>) => {
-          if (
-            this.filters.gender ||
-            this.filters.is_permium ||
-            this.filters.type
-          )
-            this.setUsersData(usersResponse.data.data);
-          else this.setUsersData(usersResponse.data);
+          this.setUsersData(this.filtersApplied() ? usersResponse.data.data : usersResponse.data);
         },
         error: () => {
-          this.getAllIsLoading = false;
-          this.showErrorToast = true;
-          setTimeout(() => {
-            this.showErrorToast = false;
-          }, 6000);
+          this.handleError("Couldn't load users.");
         },
       });
   }
-  setUsersData(users: User[]) {
-    this.tableData = users.map((user: User) => ({
+
+  private filtersApplied(): boolean {
+    return !!this.filters.gender || !!this.filters.is_permium || !!this.filters.type;
+  }
+
+  private setUsersData(users: User[]): void {
+    this.tableData = users.map(user => ({
       ...user,
       country_name: user.country ? user.country.name_en : '-',
-      active: user.active === 1 ? 'Active' : 'InActive',
+      active: user.active === 1 ? 'Active' : 'Inactive',
       is_premium: user.is_premium === 1 ? 'Is Premium' : 'Not Premium',
     }));
   }
+
   getColumnClass(columnName: string, value: any): string {
-    if (
-      (columnName === 'active' && value === 'Active') ||
-      (columnName === 'is_premium' && value === 'Is Premium')
-    ) {
-      return 'active-column';
+    switch (columnName) {
+      case 'active':
+        return value === 'Active' ? 'active-column' : 'inactive-column';
+      case 'is_premium':
+        return value === 'Is Premium' ? 'active-column' : 'inactive-column';
+      default:
+        return '';
     }
-    if (
-      (columnName === 'active' && value === 'InActive') ||
-      (columnName === 'is_premium' && value === 'Not Premium')
-    ) {
-      return 'inactive-column';
-    }
-    return '';
   }
-  handleView(item: User) {
+
+  handleView(item: User): void {
     console.log('View clicked', item);
   }
 
-  handleEdit(item: User) {
+  handleEdit(item: User): void {
     this.existingUser = item;
-    this.openUpdateUserModal()
-    console.log('Edit clicked', item);
+    this.openModal('updateUserModal');
   }
 
-  handleDelete(item: User) {
+  handleDelete(item: User): void {
     console.log('Delete clicked', item);
   }
-  handleToggleActivation(item: any) {
+
+  handleToggleActivation(item: any): void {
     console.log('Toggle clicked', item);
   }
 
-  openFilterModal() {
-    const modalElement = document.getElementById('filterModal');
+  openModal(modalId: string): void {
+    const modalElement = document.getElementById(modalId);
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     }
   }
+
+  closeModal(modalId: string): void {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) modal.hide();
+    }
+    this.listAllUsers();
+  }
+
+  openFilterModal(): void {
+    this.openModal('filterModal');
+  }
+
   closeFilterModal(filters: {
     gender?: string;
     type?: string;
     is_permium?: boolean;
-  }) {
-    this.filters.gender = filters.gender;
-    this.filters.is_permium = filters.is_permium ? 1 : 0;
-    this.filters.type = filters.type;
-    const modalElement = document.getElementById('filterModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) modal.hide();
-    }
-    this.listAllUsers();
+  }): void {
+    this.filters = {
+      gender: filters.gender,
+      type: filters.type,
+      is_permium: filters.is_permium ? 1 : 0,
+    };
+    this.closeModal('filterModal');
   }
-  openCreateUserModal() {
-    const modalElement = document.getElementById('createUserModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
+
+  openCreateUserModal(): void {
+    this.openModal('createUserModal');
   }
-  closeUserModal() {
-    let modalName = this.existingUser? 'updateUserModal' : 'createUserModal';
-   
-    const modalElement = document.getElementById(modalName);
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) modal.hide();
-    }
-    this.listAllUsers();
+
+  closeCreateUserModal(): void {
+    this.closeModal('createUserModal');
   }
-  openUpdateUserModal() {
-    const modalElement = document.getElementById('updateUserModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
+
+  openUpdateUserModal(): void {
+    this.openModal('updateUserModal');
   }
-  closeUpdateUserModal() {
-    const modalElement = document.getElementById('updateUserModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) modal.hide();
-    }
-    this.listAllUsers();
+
+  closeUpdateUserModal(): void {
+    this.closeModal('updateUserModal');
   }
+
+  private handleError(message: string): void {
+    this.getAllIsLoading = false;
+    this.errorMessage = message;
+    this.showErrorToast = true;
+    setTimeout(() => {
+      this.showErrorToast = false;
+    }, 6000);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

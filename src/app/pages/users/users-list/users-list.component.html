@@ -57,7 +57,7 @@
       </div>
       <div class="modal-body">
         <app-user-form
-          (closeUserFormModal)="closeUserModal()"
+          (closeUserFormModal)="closeCreateUserModal()"
         ></app-user-form>
       </div>
     </div>
@@ -80,7 +80,7 @@
       </div>
       <div class="modal-body">
         <app-user-form
-          (closeUserFormModal)="closeUserModal()"
+          (closeUserFormModal)="closeUpdateUserModal()"
           [userData]="existingUser"
         ></app-user-form>
       </div>
