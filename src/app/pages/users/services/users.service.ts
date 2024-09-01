@@ -4,7 +4,7 @@ import { URLS } from 'src/app/core/apis/api-urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment';
 import { ResponseAPI } from 'src/app/shared/model/shared.model';
-import { CreateUserRequest, User } from '../models/users.model';
+import { CreateOrUpdateUserRequest, User } from '../models/users.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +33,7 @@ export class UsersService {
       queryParams = queryParams.append('is_premium', filters.is_permium);
       return_all = false;
     }
-    if(return_all)
-      queryParams = queryParams.append('return_all', 1);
+    if (return_all) queryParams = queryParams.append('return_all', 1);
     return this._http.get<ResponseAPI<User[]>>(
       environment.BASE_URL + URLS.user.getAll,
       {
@@ -42,11 +41,19 @@ export class UsersService {
       }
     );
   }
-  createUser(createdUser: CreateUserRequest): Observable<any> {
+  createUser(createdUser: CreateOrUpdateUserRequest): Observable<any> {
+    return this._http.post<any>(environment.BASE_URL + URLS.user.create, {
+      ...createdUser,
+    });
+  }
+  updateUser(
+    updatedUser: CreateOrUpdateUserRequest,
+    userId: number
+  ): Observable<any> {
     return this._http.post<any>(
-      environment.BASE_URL + URLS.user.create,
+      environment.BASE_URL + URLS.user.getAll +`/${userId}/edit`,
       {
-        ...createdUser,
+        ...updatedUser,
       }
     );
   }

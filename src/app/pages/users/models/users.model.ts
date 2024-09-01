@@ -36,7 +36,7 @@ export interface UserFilters {
   type: string | undefined;
   is_permium: number | undefined;
 }
-export interface CreateUserRequest {
+export interface CreateOrUpdateUserRequest {
   name: string;
   phone: string;
   phone_code: string;

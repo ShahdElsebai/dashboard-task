@@ -17,6 +17,7 @@ export class UsersListComponent implements OnInit {
   getAllIsLoading = true;
   showErrorToast = false;
   errorMessage = "Something went wrong,couldn't load users.";
+  existingUser!: User;
   tableHeaders: TableHeader[] = [
     { label: 'ID', name: 'id', type: 'number' },
     { label: 'Name', name: 'name', type: 'text' },
@@ -105,6 +106,8 @@ export class UsersListComponent implements OnInit {
   }
 
   handleEdit(item: User) {
+    this.existingUser = item;
+    this.openUpdateUserModal()
     console.log('Edit clicked', item);
   }
 
@@ -144,8 +147,25 @@ export class UsersListComponent implements OnInit {
       modal.show();
     }
   }
-  closeCreateUserModal() {
-    const modalElement = document.getElementById('createUserModal');
+  closeUserModal() {
+    let modalName = this.existingUser? 'updateUserModal' : 'createUserModal';
+   
+    const modalElement = document.getElementById(modalName);
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) modal.hide();
+    }
+    this.listAllUsers();
+  }
+  openUpdateUserModal() {
+    const modalElement = document.getElementById('updateUserModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  closeUpdateUserModal() {
+    const modalElement = document.getElementById('updateUserModal');
     if (modalElement) {
       const modal = bootstrap.Modal.getInstance(modalElement);
       if (modal) modal.hide();

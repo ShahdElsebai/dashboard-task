@@ -1,16 +1,19 @@
 import { UsersService } from './../services/users.service';
-import { Country, CreateUserRequest } from '../models/users.model';
+import { Country, CreateOrUpdateUserRequest, User } from '../models/users.model';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { SpinnerStatus } from 'src/app/core/models/core.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
-  PaginatedResponse,
-  ResponseAPI,
-} from 'src/app/shared/model/shared.model';
-import { Action } from 'rxjs/internal/scheduler/Action';
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { PaginatedResponse } from 'src/app/shared/model/shared.model';
 
 @Component({
   selector: 'app-user-form',
@@ -18,7 +21,7 @@ import { Action } from 'rxjs/internal/scheduler/Action';
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent implements OnInit {
-  @Input() userData: any; // Use this input to pass existing user data for update
+  @Input() userData!: User;
   @Output() closeUserFormModal = new EventEmitter<void>();
 
   userForm!: FormGroup;
@@ -48,7 +51,11 @@ export class UserFormComponent implements OnInit {
       this.userForm.patchValue(this.userData);
     }
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userData'] && changes['userData'].currentValue) {
+      this.patchFormWithUserData(changes['userData'].currentValue);
+    }
+  }
   initializeForm() {
     this.userForm = this.fb.group(
       {
@@ -76,6 +83,9 @@ export class UserFormComponent implements OnInit {
     this.userForm.get('country_code')?.disable();
 
     this.userForm.get('phone_code')?.disable();
+    if (this.userData) {
+      this.patchFormWithUserData(this.userData);
+    }
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
@@ -159,13 +169,100 @@ export class UserFormComponent implements OnInit {
     );
   }
 
+  patchFormWithUserData(user: User) {
+    this.userForm.patchValue({
+      ...user,
+    });
+  }
+  createUser(newUser: CreateOrUpdateUserRequest) {
+    this.usersService
+      .createUser(newUser)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.isLoading = false;
+            //close model after call api and it success
+            this.closeUserFormModal.emit();
+            this.userForm.reset();
+            this.Message = 'User is created successfully';
+            this.showToast = true;
+            setTimeout(() => {
+              this.showToast = false;
+            }, 6000);
+          }
+        },
+        error: (error) => {
+          if (
+            error.error &&
+            error.error.errors &&
+            Array.isArray(error.error.errors)
+          ) {
+            const allErrors = error.error.errors
+              .map((err: any) => err.msg)
+              .join(' | ');
+
+            this.Message = allErrors;
+          } else {
+            this.Message = 'An unknown error occurred.';
+          }
+          this.isError = true;
+          this.isLoading = false;
+          this.showToast = true;
+          setTimeout(() => {
+            this.showToast = false;
+          }, 6000);
+        },
+      });
+  }
+  updateUser(updatedUser: CreateOrUpdateUserRequest) {
+    this.usersService
+      .updateUser(updatedUser, this.userData.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.isLoading = false;
+            //close model after call api and it success
+            this.closeUserFormModal.emit();
+            this.userForm.reset();
+            this.Message = 'User is updated successfully';
+            this.showToast = true;
+            setTimeout(() => {
+              this.showToast = false;
+            }, 6000);
+          }
+        },
+        error: (error) => {
+          if (
+            error.error &&
+            error.error.errors &&
+            Array.isArray(error.error.errors)
+          ) {
+            const allErrors = error.error.errors
+              .map((err: any) => err.msg)
+              .join(' | ');
+
+            this.Message = allErrors;
+          } else {
+            this.Message = 'An unknown error occurred.';
+          }
+          this.isError = true;
+          this.isLoading = false;
+          this.showToast = true;
+          setTimeout(() => {
+            this.showToast = false;
+          }, 6000);
+        },
+      });
+  }
   onSubmit() {
     this.isLoading = true;
     if (this.userForm.valid) {
       let formData = this.userForm.value;
       formData = this.filterFormData(formData);
 
-      const newUser: CreateUserRequest = {
+      const user: CreateOrUpdateUserRequest = {
         ...formData,
         phone_code: '+' + this.selectedCountry?.phonecode,
         country_code: this.selectedCountry?.iso2,
@@ -173,51 +270,9 @@ export class UserFormComponent implements OnInit {
         is_premium: formData.is_permium ? 1 : 0,
       };
       if (this.userData) {
-        // Call the update API
-        console.log('Updating user with data:', formData);
-        //close model after call api and it success
-        this.closeUserFormModal.emit();
-        this.userForm.reset();
+       this.updateUser(user)
       } else {
-        this.usersService
-          .createUser(newUser)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: (res) => {
-              if (res) {
-                this.isLoading = false;
-                //close model after call api and it success
-                this.closeUserFormModal.emit();
-                this.userForm.reset();
-                this.Message = 'User is created successfully';
-                this.showToast = true;
-                setTimeout(() => {
-                  this.showToast = false;
-                }, 6000);
-              }
-            },
-            error: (error) => {
-              if (
-                error.error &&
-                error.error.errors &&
-                Array.isArray(error.error.errors)
-              ) {
-                const allErrors = error.error.errors
-                  .map((err: any) => err.msg)
-                  .join(' | ');
-
-                this.Message = allErrors;
-              } else {
-                this.Message = 'An unknown error occurred.';
-              }
-              this.isError = true;
-              this.isLoading = false;
-              this.showToast = true;
-              setTimeout(() => {
-                this.showToast = false;
-              }, 6000);
-            },
-          });
+        this.createUser(user);
       }
     }
   }
