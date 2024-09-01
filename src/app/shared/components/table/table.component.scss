@@ -76,6 +76,14 @@
   .inactive-column {
     color: $error;
   }
+  .delete-confirmation-container{
+    display: flex;
+    flex-direction: column;
+    .buttons-container{
+      display: flex;
+      justify-content: space-around;
+    }
+  }
 }
 .pagination-container{
   display: flex;

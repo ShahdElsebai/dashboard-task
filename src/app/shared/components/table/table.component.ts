@@ -43,6 +43,9 @@ export class TableComponent<TData extends Record<string, any>>
   totalItems = 0;
   totalPages = 0;
 
+  // Track the delete confirmation visibility
+  confirmDelete: { [key: number]: boolean } = {};
+
   constructor(private datePipe: DatePipe) {}
 
   ngOnInit() {
@@ -74,18 +77,18 @@ export class TableComponent<TData extends Record<string, any>>
     if (!header) {
       return;
     }
-  
+
     if (this.sortColumn === header.name) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortColumn = header.name;
       this.sortDirection = 'asc';
     }
-  
+
     this.sortedData.sort((a, b) => {
       let valueA = a[header.name];
       let valueB = b[header.name];
-  
+
       // Handle sorting by type
       if (header.type === 'number') {
         valueA = parseFloat(valueA);
@@ -97,7 +100,7 @@ export class TableComponent<TData extends Record<string, any>>
         valueA = valueA.toLowerCase();
         valueB = valueB.toLowerCase();
       }
-  
+
       if (valueA < valueB) {
         return this.sortDirection === 'asc' ? -1 : 1;
       } else if (valueA > valueB) {
@@ -106,11 +109,10 @@ export class TableComponent<TData extends Record<string, any>>
         return 0;
       }
     });
-  
+
     // After sorting, update pagination
     this.updatePagination();
   }
-  
 
   updatePagination() {
     const start = (this.currentPage - 1) * this.pageSize;
@@ -152,7 +154,7 @@ export class TableComponent<TData extends Record<string, any>>
     this.edit.emit(item);
   }
 
-  onDelete(item: TData) {
+  onDeleteConfirmed(item: TData) {
     this.delete.emit(item);
   }
 
@@ -166,5 +168,13 @@ export class TableComponent<TData extends Record<string, any>>
 
   openFilterModalClicked() {
     this.openFilterModal.emit();
+  }
+
+  confirmDeleteItem(index: number) {
+    this.confirmDelete[index] = true;
+  }
+
+  cancelDelete(index: number) {
+    this.confirmDelete[index] = false;
   }
 }
