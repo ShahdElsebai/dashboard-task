@@ -69,6 +69,12 @@
   .view {
     background-color: $primary;
   }
+  .on-toggle{
+    background-color: $green;
+  }
+  .off-toggle{
+    background-color: $light-gray;
+  }
   .active-column {
     color: $green;
   }

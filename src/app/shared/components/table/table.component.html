@@ -59,15 +59,15 @@
             <div *ngIf="confirmDelete[i]" class="confirmation-popup delete-confirmation-container">
               <span>Are you sure?</span>
               <div class="buttons-container">
-              <button class="btn btn-danger btn-sm" (click)="onDeleteConfirmed(row)">
-                Yes
-              </button>
-              <button class="btn btn-secondary btn-sm" (click)="cancelDelete(i)">
-                No
-              </button>
+                <button class="btn btn-danger btn-sm" (click)="onDeleteConfirmed(row)">
+                  Yes
+                </button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelDelete(i)">
+                  No
+                </button>
               </div>
             </div>
-
+          
             <!-- Action Buttons -->
             <div *ngIf="!confirmDelete[i]">
               <button
@@ -91,8 +91,17 @@
               >
                 <i class="bi bi-trash"></i>
               </button>
+              <button
+                class="action-btn toggle"
+                *ngIf="actions.includes('toggle')"
+                (click)="onToggle(row)"
+                [ngClass]="row[toggleColumn] === 'Active' ? 'on-toggle ' : 'off-toggle'"
+              >
+                <i [ngClass]="row[toggleColumn] === 'Active' ? 'bi bi-toggle-on ' : 'bi bi-toggle-off'"></i>
+              </button>
             </div>
           </td>
+          
         </tr>
       </tbody>
     </table>

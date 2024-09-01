@@ -23,6 +23,7 @@ export class TableComponent<TData extends Record<string, any>>
   @Input() actions: ActionType[] = [];
   @Input() isLoading: boolean = true;
   @Input() getClass?: (columnName: string, value: any) => string;
+  @Input() toggleColumn: string = ''; // Column name to determine toggle state
 
   @Output() view = new EventEmitter<TData>();
   @Output() edit = new EventEmitter<TData>();
