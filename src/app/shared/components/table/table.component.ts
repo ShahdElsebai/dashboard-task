@@ -1,14 +1,6 @@
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActionType, ColumnType, TableHeader } from '../../model/table.model';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -44,8 +36,9 @@ export class TableComponent<TData extends Record<string, any>>
   totalItems = 0;
   totalPages = 0;
 
-  // Track the delete confirmation visibility
+  // Track the delete and toggle confirmation visibility
   confirmDelete: { [key: number]: boolean } = {};
+  confirmToggle: { [key: number]: boolean } = {};
 
   constructor(private datePipe: DatePipe) {}
 
@@ -159,8 +152,9 @@ export class TableComponent<TData extends Record<string, any>>
     this.delete.emit(item);
   }
 
-  onToggle(item: TData) {
+  onToggleConfirmed(item: TData, index: number) {
     this.toggle.emit(item);
+    this.confirmToggle[index] = false;
   }
 
   onOpenCreateNew() {
@@ -177,5 +171,13 @@ export class TableComponent<TData extends Record<string, any>>
 
   cancelDelete(index: number) {
     this.confirmDelete[index] = false;
+  }
+
+  confirmToggleItem(index: number) {
+    this.confirmToggle[index] = true;
+  }
+
+  cancelToggle(index: number) {
+    this.confirmToggle[index] = false;
   }
 }

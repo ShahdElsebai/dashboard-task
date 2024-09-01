@@ -108,7 +108,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   handleDelete(item: User): void {
-    console.log('Delete clicked', item);
     this.usersService
       .deleteUser(item.id)
       .pipe(
@@ -135,8 +134,32 @@ export class UsersListComponent implements OnInit, OnDestroy {
       });
   }
 
-  handleToggleActivation(item: any): void {
-    console.log('Toggle clicked', item);
+  handleToggleActivation(item: User): void {
+    const isActive = item.active;
+    this.usersService
+    .toggleUserActivation(item.id)
+    .pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
+      next: () => {
+        this.listAllUsers()
+        this.message = isActive ? 'User is deactivated successfully.' : 'User is activated successfully.';
+        this.isError = false;
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+        }, 6000);
+      },
+      error: () => {
+        this.message = 'Failed to delete user.';
+        this.isError = true;
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+        }, 6000);
+      },
+    });
   }
 
   openModal(modalId: string): void {

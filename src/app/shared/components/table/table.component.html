@@ -56,8 +56,8 @@
           </td>
           <td *ngIf="actions.length > 0">
             <!-- Delete Confirmation -->
-            <div *ngIf="confirmDelete[i]" class="confirmation-popup delete-confirmation-container">
-              <span>Are you sure?</span>
+            <div *ngIf="confirmDelete[i]" class="confirmation-popup confirmation-container">
+              <span>Delete this item?</span>
               <div class="buttons-container">
                 <button class="btn btn-danger btn-sm" (click)="onDeleteConfirmed(row)">
                   Yes
@@ -68,8 +68,21 @@
               </div>
             </div>
           
+            <!-- Toggle Confirmation -->
+            <div *ngIf="confirmToggle[i]" class="confirmation-popup confirmation-container">
+              <small>Toggle this item?</small>
+              <div class="buttons-container">
+                <button class="btn btn-danger btn-sm" (click)="onToggleConfirmed(row, i)">
+                  Yes
+                </button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelToggle(i)">
+                  No
+                </button>
+              </div>
+            </div>
+          
             <!-- Action Buttons -->
-            <div *ngIf="!confirmDelete[i]">
+            <div *ngIf="!confirmDelete[i] && !confirmToggle[i]">
               <button
                 class="action-btn view"
                 *ngIf="actions.includes('view')"
@@ -94,7 +107,7 @@
               <button
                 class="action-btn toggle"
                 *ngIf="actions.includes('toggle')"
-                (click)="onToggle(row)"
+                (click)="confirmToggleItem(i)"
                 [ngClass]="row[toggleColumn] === 'Active' ? 'on-toggle ' : 'off-toggle'"
               >
                 <i [ngClass]="row[toggleColumn] === 'Active' ? 'bi bi-toggle-on ' : 'bi bi-toggle-off'"></i>

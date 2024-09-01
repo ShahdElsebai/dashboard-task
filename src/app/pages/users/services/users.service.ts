@@ -65,4 +65,12 @@ export class UsersService {
       
     );
   }
+  toggleUserActivation(
+    userId: number
+  ): Observable<any> {
+    return this._http.post<any>(
+      environment.BASE_URL + URLS.user.getAll +`/${userId}/activation`,{}
+      
+    );
+  }
 }
