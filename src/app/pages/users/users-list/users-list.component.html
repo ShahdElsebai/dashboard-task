@@ -14,11 +14,11 @@
 ></app-table>
 
 <!-- Error Toast Component -->
-<app-toast-error
-  *ngIf="showErrorToast"
-  [Message]="errorMessage"
-  [isError]="true"
-></app-toast-error>
+<app-toast
+  *ngIf="showToast"
+  [Message]="message"
+  [isError]="isError"
+></app-toast>
 
 <!-- Filter Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">

@@ -15,9 +15,10 @@ import { ActionType, TableHeader } from 'src/app/shared/model/table.model';
 })
 export class UsersListComponent implements OnInit, OnDestroy {
   getAllIsLoading = true;
-  showErrorToast = false;
-  errorMessage = "Something went wrong, couldn't load users.";
   existingUser!: User;
+  showToast = false;
+  isError = false;
+  message = 'Something went wrong, please check the data.';
   tableHeaders: TableHeader[] = [
     { label: 'ID', name: 'id', type: 'number' },
     { label: 'Name', name: 'name', type: 'text' },
@@ -54,13 +55,16 @@ export class UsersListComponent implements OnInit, OnDestroy {
       .getAllUsers(0, this.filters)
       .pipe(
         finalize(() => {
-          this.getAllIsLoading = this.spinnerService.showSpinner.value === SpinnerStatus.SHOW;
+          this.getAllIsLoading =
+            this.spinnerService.showSpinner.value === SpinnerStatus.SHOW;
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (usersResponse: ResponseAPI<User[] | any>) => {
-          this.setUsersData(this.filtersApplied() ? usersResponse.data.data : usersResponse.data);
+          this.setUsersData(
+            this.filtersApplied() ? usersResponse.data.data : usersResponse.data
+          );
         },
         error: () => {
           this.handleError("Couldn't load users.");
@@ -69,11 +73,13 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   private filtersApplied(): boolean {
-    return !!this.filters.gender || !!this.filters.is_permium || !!this.filters.type;
+    return (
+      !!this.filters.gender || !!this.filters.is_permium || !!this.filters.type
+    );
   }
 
   private setUsersData(users: User[]): void {
-    this.tableData = users.map(user => ({
+    this.tableData = users.map((user) => ({
       ...user,
       country_name: user.country ? user.country.name_en : '-',
       active: user.active === 1 ? 'Active' : 'Inactive',
@@ -103,6 +109,30 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   handleDelete(item: User): void {
     console.log('Delete clicked', item);
+    this.usersService
+      .deleteUser(item.id)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => {
+          this.listAllUsers()
+          this.message = 'user is deleted successfully.';
+          this.isError = false;
+          this.showToast = true;
+          setTimeout(() => {
+            this.showToast = false;
+          }, 6000);
+        },
+        error: () => {
+          this.message = 'Failed to delete user.';
+          this.isError = true;
+          this.showToast = true;
+          setTimeout(() => {
+            this.showToast = false;
+          }, 6000);
+        },
+      });
   }
 
   handleToggleActivation(item: any): void {
@@ -161,10 +191,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   private handleError(message: string): void {
     this.getAllIsLoading = false;
-    this.errorMessage = message;
-    this.showErrorToast = true;
+    this.message = message;
+    this.showToast = true;
     setTimeout(() => {
-      this.showErrorToast = false;
+      this.showToast = false;
     }, 6000);
   }
 

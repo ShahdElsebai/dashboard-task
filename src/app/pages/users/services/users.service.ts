@@ -57,4 +57,12 @@ export class UsersService {
       }
     );
   }
+  deleteUser(
+    userId: number
+  ): Observable<any> {
+    return this._http.post<any>(
+      environment.BASE_URL + URLS.user.getAll +`/${userId}/delete`,{}
+      
+    );
+  }
 }
