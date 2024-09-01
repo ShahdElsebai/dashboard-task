@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+import { Router } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../services/users.service';
 import { User, UserFilters } from '../models/users.model';
@@ -43,7 +44,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
-    public spinnerService: SpinnerService
+    public spinnerService: SpinnerService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -99,7 +101,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   handleView(item: User): void {
-    console.log('View clicked', item);
+    this.router.navigate([`users/${item.id}`]);
   }
 
   handleEdit(item: User): void {
