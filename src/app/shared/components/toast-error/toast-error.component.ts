@@ -6,5 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./toast-error.component.scss'],
 })
 export class ToastErrorComponent {
-  @Input() errorMessage: string = '';
+  @Input() isError: boolean=true;
+  @Input() Message: string = '';
 }

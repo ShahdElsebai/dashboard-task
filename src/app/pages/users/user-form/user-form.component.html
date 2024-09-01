@@ -90,21 +90,21 @@
     </div>
     <div class="col-md-6">
       <div class="form-group mb-2">
-        <label for="confirmPassword"
+        <label for="password_confirmation"
           >Confirm Password <span class="text-danger">*</span></label
         >
         <input
           type="password"
-          id="confirmPassword"
-          formControlName="confirmPassword"
+          id="password_confirmation"
+          formControlName="password_confirmation"
           class="form-control"
           placeholder="Confirm your password"
         />
         <div
           *ngIf="
             userForm.hasError('mismatch') &&
-            confirmPassword &&
-            confirmPassword.touched
+            password_confirmation &&
+            password_confirmation.touched
           "
           class="text-danger"
         >
@@ -239,18 +239,6 @@
           <small>Country is required.</small>
         </div>
       </div>
-      <div
-        *ngIf="
-          country_code &&
-          country_code.invalid &&
-          (country_code.dirty || country_code.touched)
-        "
-        class="text-danger"
-      >
-        <div *ngIf="country_code.errors?.['required']">
-          <small>Country Code is required.</small>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -314,7 +302,9 @@
       class="btn btn-primary"
       [disabled]="userForm.invalid || isLoading"
     >
-      Submit
+    {{isLoading ? "Loading...": "Submit"}}
     </button>
   </div>
 </form>
+
+<app-toast-error *ngIf="showToast" [Message]="Message" [isError]="isError"></app-toast-error>

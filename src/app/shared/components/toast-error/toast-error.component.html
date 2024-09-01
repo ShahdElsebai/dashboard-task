@@ -1,13 +1,15 @@
 <!-- Toast for error messages -->
-<div
-  class="toast-container position-fixed top-0 end-0 p-3"
->
+<div class="toast-container position-fixed top-0 end-0 p-3">
   <div
     class="toast align-items-center text-bg-danger border-0 show"
     role="alert"
+    [ngClass]="{
+      'text-bg-danger': isError,
+      'text-bg-success': !isError
+    }"
   >
     <div class="d-flex">
-      <div class="toast-body">{{errorMessage}}</div>
+      <div class="toast-body">{{ Message }}</div>
     </div>
   </div>
 </div>
