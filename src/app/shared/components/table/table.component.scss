@@ -1,16 +1,25 @@
 @import "src/assets/color-plate";
-
-.filter-btn-container {
+.header-container{
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 50px;
-  .btn {
-    background-color: $primary;
-    border: none;
-    margin-left: 30px;
-    color: $white;
+  justify-content: space-between;
+  .title{
+    font-size: 24px;
+    font-family: MontserratBold;
+    color: $primary;
+  }
+  .filter-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+    .btn {
+      background-color: $primary;
+      border: none;
+      margin-left: 30px;
+      color: $white;
+    }
   }
 }
+
 
 .spinner-container {
   width: 100%;

@@ -3,18 +3,22 @@
 </div>
 
 <div *ngIf="!isLoading">
-  <div class="filter-btn-container mb-3">
-    <button type="button" class="btn btn-primary" (click)="onOpenCreateNew()">
-      <i class="bi bi-plus"></i>
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="openFilterModalClicked()"
-    >
-      <i class="bi bi-filter"></i>
-    </button>
+  <div class="header-container">
+    <p class="title">{{title}}</p>
+    <div class="filter-btn-container mb-3">
+      <button type="button" class="btn btn-primary" (click)="onOpenCreateNew()">
+        <i class="bi bi-plus"></i>
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="openFilterModalClicked()"
+      >
+        <i class="bi bi-filter"></i>
+      </button>
+    </div>
   </div>
+ 
 
   <div class="table-responsive">
     <table class="table">
