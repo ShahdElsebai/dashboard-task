@@ -19,6 +19,7 @@ import {
 export class TableComponent<TData extends Record<string, any>>
   implements OnInit, OnChanges
 {
+  @Input() title: string = '';
   @Input() headers: TableHeader[] = [];
   @Input() data: TData[] = [];
   @Input() actions: ActionType[] = [];

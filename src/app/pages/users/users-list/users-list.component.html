@@ -1,11 +1,12 @@
 <!-- Table Component -->
 <app-table
+  [title]="'User Management'"
   [headers]="tableHeaders"
   [data]="tableData"
   [actions]="tableActions"
   [isLoading]="getAllIsLoading"
   [getClass]="getColumnClass"
-  [toggleColumn]="'active'" 
+  [toggleColumn]="'active'"
   (view)="handleView($event)"
   (edit)="handleEdit($event)"
   (delete)="handleDelete($event)"
@@ -65,9 +66,8 @@
   </div>
 </div>
 
-
 <!-- Update User Modal -->
-<div  class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
