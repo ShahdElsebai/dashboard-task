@@ -80,7 +80,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         is_premium: [0],
         email: ['', [Validators.required, Validators.email]],
         image: [null],
-        password: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
         password_confirmation: ['', Validators.required],
       },
       { validator: this.passwordMatchValidator }
