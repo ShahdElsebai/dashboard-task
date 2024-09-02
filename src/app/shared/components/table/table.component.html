@@ -59,7 +59,7 @@
             <div *ngIf="confirmDelete[i]" class="confirmation-popup confirmation-container">
               <span>Delete this item?</span>
               <div class="buttons-container">
-                <button class="btn btn-danger btn-sm" (click)="onDeleteConfirmed(row)">
+                <button class="btn btn-danger btn-sm" (click)="onDeleteConfirmed(row,i)">
                   Yes
                 </button>
                 <button class="btn btn-secondary btn-sm" (click)="cancelDelete(i)">

@@ -57,8 +57,8 @@ export class UsersService {
   updateUser(
     updatedUser: CreateOrUpdateUserRequest,
     userId: number
-  ): Observable<any> {
-    return this._http.post<any>(
+  ): Observable<ResponseAPI<User>> {
+    return this._http.post<ResponseAPI<User>>(
       environment.BASE_URL + URLS.user.getAll +`/${userId}/edit`,
       {
         ...updatedUser,
@@ -67,16 +67,16 @@ export class UsersService {
   }
   deleteUser(
     userId: number
-  ): Observable<any> {
-    return this._http.post<any>(
+  ): Observable<ResponseAPI<User>> {
+    return this._http.post<ResponseAPI<User>>(
       environment.BASE_URL + URLS.user.getAll +`/${userId}/delete`,{}
       
     );
   }
   toggleUserActivation(
     userId: number
-  ): Observable<any> {
-    return this._http.post<any>(
+  ): Observable<ResponseAPI<User>> {
+    return this._http.post<ResponseAPI<User>>(
       environment.BASE_URL + URLS.user.getAll +`/${userId}/activation`,{}
       
     );

@@ -1,6 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActionType, ColumnType, TableHeader } from '../../model/table.model';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+
 
 @Component({
   selector: 'app-table',
@@ -148,8 +157,9 @@ export class TableComponent<TData extends Record<string, any>>
     this.edit.emit(item);
   }
 
-  onDeleteConfirmed(item: TData) {
+  onDeleteConfirmed(item: TData, index: number) {
     this.delete.emit(item);
+    this.confirmDelete[index] = false;
   }
 
   onToggleConfirmed(item: TData, index: number) {
