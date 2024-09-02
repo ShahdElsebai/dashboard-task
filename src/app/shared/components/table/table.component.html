@@ -1,0 +1,143 @@
+<div class="spinner-container" *ngIf="isLoading">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="!isLoading">
+  <div class="filter-btn-container mb-3">
+    <button type="button" class="btn btn-primary" (click)="onOpenCreateNew()">
+      <i class="bi bi-plus"></i>
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="openFilterModalClicked()"
+    >
+      <i class="bi bi-filter"></i>
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers" (click)="sortData(header)">
+            {{ header.label }}
+            <i
+              [ngClass]="{
+                'bi bi-arrow-up':
+                  sortColumn === header.name && sortDirection === 'asc',
+                'bi bi-arrow-down':
+                  sortColumn === header.name && sortDirection === 'desc',
+                'bi bi-arrow-down-up': sortColumn !== header.name
+              }"
+            ></i>
+          </th>
+          <th *ngIf="actions.length > 0">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- No data row -->
+        <tr *ngIf="!paginatedData || paginatedData.length === 0">
+          <td
+            [attr.colspan]="headers.length + (actions.length > 0 ? 1 : 0)"
+            class="text-center"
+          >
+            No Available Data
+          </td>
+        </tr>
+
+        <!-- Data rows -->
+        <tr *ngFor="let row of paginatedData; let i = index">
+          <td
+            *ngFor="let header of headers"
+            [ngClass]="getClass ? getClass(header.name, row[header.name]) : ''"
+          >
+            {{ formatValue(row[header.name], header.type) }}
+          </td>
+          <td *ngIf="actions.length > 0">
+            <!-- Delete Confirmation -->
+            <div *ngIf="confirmDelete[i]" class="confirmation-popup confirmation-container">
+              <span>Delete this item?</span>
+              <div class="buttons-container">
+                <button class="btn btn-danger btn-sm" (click)="onDeleteConfirmed(row,i)">
+                  Yes
+                </button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelDelete(i)">
+                  No
+                </button>
+              </div>
+            </div>
+          
+            <!-- Toggle Confirmation -->
+            <div *ngIf="confirmToggle[i]" class="confirmation-popup confirmation-container">
+              <small>Toggle activation this item?</small>
+              <div class="buttons-container">
+                <button class="btn btn-danger btn-sm" (click)="onToggleConfirmed(row, i)">
+                  Yes
+                </button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelToggle(i)">
+                  No
+                </button>
+              </div>
+            </div>
+          
+            <!-- Action Buttons -->
+            <div *ngIf="!confirmDelete[i] && !confirmToggle[i]">
+              <button
+                class="action-btn view"
+                *ngIf="actions.includes('view')"
+                (click)="onView(row)"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+              <button
+                class="action-btn edit"
+                *ngIf="actions.includes('edit')"
+                (click)="onEdit(row)"
+              >
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button
+                class="action-btn delete"
+                *ngIf="actions.includes('delete')"
+                (click)="confirmDeleteItem(i)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+              <button
+                class="action-btn toggle"
+                *ngIf="actions.includes('toggle')"
+                (click)="confirmToggleItem(i)"
+                [ngClass]="row[toggleColumn] === 'Active' ? 'on-toggle ' : 'off-toggle'"
+              >
+                <i [ngClass]="row[toggleColumn] === 'Active' ? 'bi bi-toggle-on ' : 'bi bi-toggle-off'"></i>
+              </button>
+            </div>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination controls -->
+  <div class="pagination-controls pagination-container">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="nextPage()"
+      [disabled]="currentPage >= totalPages"
+    >
+      Next
+    </button>
+  </div>
+</div>

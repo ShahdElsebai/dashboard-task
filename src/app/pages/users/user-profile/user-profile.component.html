@@ -1,0 +1,82 @@
+<div class=" mt-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/users">Users</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+      </ol>
+    </nav>
+  
+    <!-- Spinner while loading -->
+    <div class="spinner-container" *ngIf="getUserIsLoading">
+      <app-spinner></app-spinner>
+    </div>
+  
+    <!-- User Profile Section -->
+    <div class="user-profile-container card shadow-lg" *ngIf="userData">
+      <div class="card-header text-center">
+        <h2 class="mb-0">{{ fullName }}</h2>
+        <p class="text-muted">{{ userData.email }}</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <img
+              [src]="userData.image ? userData.image: 'assets/images/profile.jpeg'"
+              class="img-fluid rounded-circle mb-3"
+              alt="User Image"
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-sm-6 mb-2 profile-section">
+                <strong>ID:</strong>
+                <span>{{ userData.id }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Phone:</strong>
+                <span>+{{ userData.phone_code }} {{ userData.phone }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Gender:</strong>
+                <span>{{ userData.gender | titlecase }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Date of Birth:</strong>
+                <span>{{ userData.date_of_birth | date: 'longDate' }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Country:</strong>
+                <span>{{ userData.country.name_en }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Account Type:</strong>
+                <span>{{ userData.type | titlecase }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Status:</strong>
+                <span class="badge" [ngClass]="userData.active === 1 ? 'bg-success' : 'bg-secondary'">
+                  {{ userData.active === 1 ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Premium:</strong>
+                <span class="badge" [ngClass]="userData.is_premium === 1 ? 'bg-warning text-dark' : 'bg-secondary'">
+                  {{ userData.is_premium === 1 ? 'Yes' : 'No' }}
+                </span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Account Created:</strong>
+                <span>{{ userData.created_at | date: 'medium' }}</span>
+              </div>
+              <div class="col-sm-6  mb-2 profile-section">
+                <strong class="label">Last Updated:</strong>
+                <span>{{ userData.updated_at | date: 'medium' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

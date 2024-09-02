@@ -1,0 +1,89 @@
+<div class="login-outer-container">
+  <div class="form-container">
+    <p class="title">Welcome To Our System</p>
+
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="form-inner-container"
+    >
+      <div class="inputs-container">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            formControlName="username"
+            class="form-control"
+            type="text"
+            aria-required="true"
+            placeholder="Enter username"
+          />
+          <div
+            *ngIf="
+              username &&
+              username.invalid &&
+              (username.dirty || username.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="username.errors?.['required']">
+              Username is required.
+            </div>
+            <div *ngIf="username.errors?.['minlength']">
+              Username must be at least 3 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mt-3 position-relative">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input
+              id="password"
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              class="form-control"
+              placeholder="Enter password"
+            />
+            <span class="input-group-text" (click)="togglePasswordVisibility()">
+              <i
+                class="bi"
+                [ngClass]="hidePassword ? 'bi-eye-slash' : 'bi-eye'"
+                aria-hidden="true"
+              ></i>
+            </span>
+          </div>
+          <div
+            *ngIf="
+              password &&
+              password.invalid &&
+              (password.dirty || password.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="password.errors?.['required']">
+              Password is required.
+            </div>
+            <div *ngIf="password.errors?.['minlength']">
+              Password must be at least 8 characters long.
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="loginForm.invalid || isLoading"
+        >
+          {{ isLoading ? "Loading..." : "Login" }}
+        </button>
+      </div>
+
+      <div class="image-container">
+        <img src="assets/images/logo.png" alt="Company Logo" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-toast *ngIf="showErrorToast" [Message]="errorMessage" [isError]="true"></app-toast>

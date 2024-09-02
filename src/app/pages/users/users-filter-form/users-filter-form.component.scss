@@ -1,0 +1,20 @@
+@import "src/assets/_color-plate.scss";
+.form-check-input {
+  margin-right: 10px;
+  background-color: $primary;
+  border-color: $primary;
+}
+.form-check-input:checked {
+  border-color: $primary;
+}
+.form-check-label {
+  margin-right: 20px;
+}
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  .btn {
+    background-color: $primary;
+    border: none;
+  }
+}

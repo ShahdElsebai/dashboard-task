@@ -1,0 +1,90 @@
+<!-- Table Component -->
+<app-table
+  [headers]="tableHeaders"
+  [data]="tableData"
+  [actions]="tableActions"
+  [isLoading]="getAllIsLoading"
+  [getClass]="getColumnClass"
+  [toggleColumn]="'active'" 
+  (view)="handleView($event)"
+  (edit)="handleEdit($event)"
+  (delete)="handleDelete($event)"
+  (toggle)="handleToggleActivation($event)"
+  (openFilterModal)="openFilterModal()"
+  (openCreateModal)="openCreateUserModal()"
+></app-table>
+
+<!-- Error Toast Component -->
+<app-toast
+  *ngIf="showToast"
+  [Message]="message"
+  [isError]="isError"
+></app-toast>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Filter</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-users-filter-form
+          (closeFilterModal)="closeFilterModal($event)"
+        ></app-users-filter-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New User</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-user-form
+          (closeUserFormModal)="closeCreateUserModal()"
+        ></app-user-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Update User Modal -->
+<div  class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update User</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-user-form
+          (closeUserFormModal)="closeUpdateUserModal()"
+          [userData]="existingUser"
+        ></app-user-form>
+      </div>
+    </div>
+  </div>
+</div>

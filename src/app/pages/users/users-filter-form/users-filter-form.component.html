@@ -1,0 +1,87 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Gender</label>
+      <div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="genderNone"
+            formControlName="gender"
+            [value]="null"  
+          />
+          <label class="form-check-label" for="genderNone">Don't apply filter for gender</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="genderMale"
+            formControlName="gender"
+            value="male"
+          />
+          <label class="form-check-label" for="genderMale">Male</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="genderFemale"
+            formControlName="gender"
+            value="female"
+          />
+          <label class="form-check-label" for="genderFemale">Female</label>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label class="form-label">Type</label>
+      <div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="typeNone"
+            formControlName="type"
+            [value]="null" 
+          />
+          <label class="form-check-label" for="typeNone">Don't apply filter for type</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="typeUser"
+            formControlName="type"
+            value="user"
+          />
+          <label class="form-check-label" for="typeUser">User</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="typeAdmin"
+            formControlName="type"
+            value="admin"
+          />
+          <label class="form-check-label" for="typeAdmin">Admin</label>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label class="form-check-label" for="is_permium">Is Premium</label>
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="is_permium"
+        formControlName="is_permium"
+      />
+    </div>
+  <div class="btn-container">
+    <button type="submit" class="btn btn-primary">Apply</button>
+  </div>
+  </form>
+  

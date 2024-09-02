@@ -1,0 +1,90 @@
+@import "../../../assets/color-plate";
+
+.login-outer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  .form-container {
+    background-color: $white;
+    width: 45vw;
+    min-height: 50vh;
+    border: 5px solid $primary;
+    border-radius: 15px;
+    padding: 5vh 3vw;
+    box-shadow: 5px 0px 6px rgba(0, 0, 0, 0.16);
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: bold;
+      font-family: MontserratSemiBold;
+      color: $primary;
+      text-align: center;
+    }
+
+    .form-inner-container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      .inputs-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        @media (min-width: 962px) {
+          width: 55%;
+        }
+
+        .form-group {
+          width: 100%;
+          min-height: 10vh;
+
+          label {
+            color: $primary;
+          }
+
+          .form-control {
+            border-radius: 4px;
+            color: $primary;
+          }
+          }
+
+          .btn {
+            width: 40%;
+            background-color: $primary;
+            cursor: pointer;
+            border: none;
+            margin-top: 30px;
+        }
+      }
+
+      .image-container {
+        display: none;
+
+        @media (min-width: 962px) {
+          display: block;
+          width: 45%;
+          transform: scale(0.45);
+        }
+
+        @media (max-width: 1105px) {
+          transform: scale(0.4);
+        }
+      }
+    }
+  }
+  .position-relative {
+    position: relative;
+  }
+
+  .bi {
+    color: $primary; 
+    cursor: pointer;
+  }
+}
