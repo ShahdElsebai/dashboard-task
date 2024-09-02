@@ -165,10 +165,10 @@ export class UserFormComponent implements OnInit, OnChanges {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       const file = input.files[0];
-      this.userForm.patchValue({ image: file });
+      this.userForm.get('image')?.setValue(file);
     }
   }
-
+  //To remove unneede attributs from request
   private filterFormData(formData: any): any {
     return Object.keys(formData).reduce(
       (acc: { [key: string]: any }, key: string) => {
@@ -252,7 +252,9 @@ export class UserFormComponent implements OnInit, OnChanges {
         active: formData.active ? 1 : 0,
         is_premium: formData.is_premium ? 1 : 0,
       };
-
+      if (this.userForm.get('image')?.value) {
+        user.image = this.userForm.get('image')?.value;
+      }
       if (this.userData) {
         this.updateUser(user);
       } else {

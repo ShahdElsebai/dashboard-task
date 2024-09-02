@@ -53,7 +53,7 @@ export interface CreateOrUpdateUserRequest {
   date_of_birth?: string;
   tribe: any;
 
-  image: any;
+  image: File;
   // type: string;
 
   // code: string;
